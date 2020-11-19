@@ -4,9 +4,27 @@ const {APP_SIGN} = require('../utils/constants');
 const { send } = require('process');
 
 function check(req, res, next){
-    const {username, nombreCompleto, correo, telefono, direccion, contrasena} = req.body;
-    const values = [username, nombreCompleto, correo, telefono, direccion, contrasena];
-    const bool = false;
+    const body = req.body;
+    let type = '';
+    let values = [];
+
+    for(const property in body){
+        if(property == 'username'){
+            type = 'usuario';
+            break;
+        }else{
+            type = 'producto';
+            break;
+        }            // update += `${property} = '${body[property]}',`;
+    }
+    if(type == 'usuario'){
+        let {username, nombreCompleto, correo, telefono, direccion, contrasena} = req.body;
+        values = [username, nombreCompleto, correo, telefono, direccion, contrasena];
+    }else{
+        let {nombre, descripcion, precio, imagen} = req.body;
+        values = [nombre, descripcion, precio, imagen];
+    }
+
     for(let i=0; i<values.length; i++){
         if(!values[i]){
            return res.status(400).send('Error: Por favor ingrese la información en los campos correspondientes');

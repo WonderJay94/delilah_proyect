@@ -74,10 +74,9 @@ const routes = (app) =>{
         });
     });
     // Endpoint register new product
-    app.post('/api/productos/registrar', admin, (req, res) => {
+    app.post('/api/productos/registrar', admin, check, (req, res) => {
         const {nombre, descripcion, precio, imagen} = req.body;
-        const values = [nombre, descripcion, precio, imagen];
-        check(values);
+        
         db.query(`INSERT INTO delilah.productos VALUES(null, '${nombre}', '${descripcion}', ${precio}, '${imagen}')`)
         .then(resDB => {
             res.status(200).send('Se ha agregado el producto con exito');
