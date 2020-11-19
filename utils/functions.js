@@ -1,12 +1,5 @@
 const {db} = require('../configDB');
 
-function check(values){
-    for(let i=0; i<values.length; i++){
-        if(!values[i]){
-            res.status(400).send('Error: Por favor ingrese la información en los campos correspondientes');
-        }
-    }
-}
 
 async function getInfo(data){
     const info = [];
@@ -75,7 +68,6 @@ function addInfo(idP, pedido){
     }
 }
 module.exports = {
-    check,
     getInfo,
     getTotal,
     addInfo

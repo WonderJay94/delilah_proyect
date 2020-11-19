@@ -1,8 +1,8 @@
 const {db} = require('../configDB');
 const jwt = require('jsonwebtoken');
 const {APP_SIGN} = require('../utils/constants');
-const {verify, auth, admin} = require('../Middlewares/middlewares');
-const {check, getInfo, getTotal, addInfo} = require('../utils/functions');
+const {check, verify, auth, admin} = require('../Middlewares/middlewares');
+const {getInfo, getTotal, addInfo} = require('../utils/functions');
 
 const routes = (app) =>{
     // LOGIN
@@ -45,12 +45,10 @@ const routes = (app) =>{
         
     });
     // Endpoint register new user
-    app.post('/api/usuarios/registrar', (req, res) => {
-        const {usuario, nombreCompleto, correo, telefono, direccion, contrasena} = req.body;
-        const values = [usuario, nombreCompleto, correo, telefono, direccion, contrasena];
-        check(values);
+    app.post('/api/usuarios/registrar',check, (req, res) => {
+        const {username, nombreCompleto, correo, telefono, direccion, contrasena} = req.body;
 
-        db.query(`INSERT INTO delilah.usuarios VALUES(null, '${usuario}', '${nombreCompleto}', '${correo}', '${telefono}', '${direccion}', '${contrasena}', 'usuario')`)
+        db.query(`INSERT INTO delilah.usuarios VALUES(null, '${username}', '${nombreCompleto}', '${correo}', '${telefono}', '${direccion}', '${contrasena}', 'usuario')`)
         .then(resDB => {
             res.status(200).send('Se ha agregado el usuario con exito');
         }).catch(e => {

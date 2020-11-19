@@ -3,6 +3,18 @@ const jwt = require('jsonwebtoken');
 const {APP_SIGN} = require('../utils/constants');
 const { send } = require('process');
 
+function check(req, res, next){
+    const {username, nombreCompleto, correo, telefono, direccion, contrasena} = req.body;
+    const values = [username, nombreCompleto, correo, telefono, direccion, contrasena];
+    const bool = false;
+    for(let i=0; i<values.length; i++){
+        if(!values[i]){
+           return res.status(400).send('Error: Por favor ingrese la información en los campos correspondientes');
+        }
+    }
+    return next();
+
+}
 function verify(req, res, next){
     const {username, password} = req.body;
     db.query(`SELECT id, usuario, contrasena, rol FROM delilah.usuarios WHERE usuario = '${username}' OR correo = '${username}'`, {type: db.QueryTypes.SELECT})
@@ -52,5 +64,6 @@ function admin (req, res, next){
 module.exports = {
     verify,
     auth,
-    admin
+    admin,
+    check
 }
