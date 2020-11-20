@@ -131,7 +131,7 @@ Solo un usuario con Rol *Administrador* puede actualizar un producto. Se **debe*
         "imagen": "https://image.freepik.com/free-photo/chicken-pie-kurnik-that-is-beautifully-decorated-table_1150-23098.jpg"
     }
 
-Se puede actualizar cualquier valor del producto siempre y cuando se utilice el nombre de la llave correspondiente, es decir, en caso de que solo se quiera actualizar el *nombre* del producto 4 se debe utilizar la llave *nombre* ningún otro valor como *name* o *nombreNuevo* es valido:
+Se puede actualizar cualquier valor del producto siempre y cuando se utilice el nombre de la llave correspondiente, es decir, en caso de que solo se quiera actualizar el *nombre* del producto se debe hacer de la siguiente forma:
 
     {
         "nombre": "empanada"
