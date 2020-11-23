@@ -19,7 +19,7 @@ imagen VARCHAR (255) NOT NULL
 );
 CREATE TABLE delilah.pedidos(
 id INT PRIMARY KEY AUTO_INCREMENT,
-estado ENUM('nuevo', 'confirmado', 'preparando', 'enviando', 'cancelado', 'entregado') NOT NULL,
+estado ENUM('nuevo', 'confirmado', 'preparando', 'enviando', 'cancelado', 'entregado', 'eliminado') NOT NULL,
 hora DATETIME NOT NULL,
 total VARCHAR (255) NOT NULL,
 metodo ENUM('efectivo', 'credito', 'debito') NOT NULL,

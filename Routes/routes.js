@@ -126,7 +126,7 @@ const routes = (app) =>{
         const {id, rol} = req.user;
         const idP = req.params.id;
         const general ='SELECT pedidos.id, estado, DATE_FORMAT(hora, "%h:%i%p") AS hora, total, metodo, usuarios.direccion, id_usuario FROM delilah.pedidos INNER JOIN delilah.usuarios ON usuarios.id = pedidos.id_usuario';
-        const query = idP ? `${general} WHERE pedidos.id = ${idP}` : general;
+        const query = idP ? `${general} WHERE pedidos.id = ${idP} AND estado <> 'eliminado'` : general;
         if(rol == 'admin'){
             db.query(query, {type: db.QueryTypes.SELECT})
             .then(async resDB =>{
@@ -141,13 +141,13 @@ const routes = (app) =>{
                 res.status(400).send(err);
             });
         }else{
-            db.query(`${general} WHERE pedidos.id_usuario = ${id}`, {type: db.QueryTypes.SELECT})
+            db.query(`${general} WHERE pedidos.id_usuario = ${id} AND estado <> 'eliminado'`, {type: db.QueryTypes.SELECT})
             .then(async resDB => {
                     if (resDB.length) {
                         let pedido = await getInfo(resDB);
                         res.status(200).json(pedido);
                     } else {
-                        res.status(400).json({ error: 'ID no encontrado' });
+                        res.status(400).json({ error: 'ID no encontrado o no cuenta con ningún pedido' });
                     }
                 }).catch(err=>{
                 console.error(err);
@@ -195,6 +195,17 @@ const routes = (app) =>{
                 res.status(400).send('No se ha podido actualizar el pedido, por favor verifique el id e intentelo nuevamente');
             })
         }
+    });
+
+    // Endpoint delete pedido
+    app.delete('/api/pedidos/:id', admin, (req, res) => {
+        const idP = req.params.id;
+        db.query(`UPDATE delilah.pedidos SET estado = 'eliminado' WHERE id = ${idP}`)
+        .then(resDB => {
+            res.status(200).send('Pedido eliminado con exito');
+        }).catch(e => {
+            res.status(400).send('El pedido no se pudo eliminar, por favor intentelo nuevamente');
+        })
     })
 }
 module.exports = routes;
