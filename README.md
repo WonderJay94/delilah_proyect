@@ -182,4 +182,11 @@ Solo un usuario con Rol Administrador puede actualizar un pedido. Se **debe** es
     {
         "estado": "cancelado"
     }
-    
+
+#### *Eliminar Pedido (Admin)*
+
+Solo un usuario con Rol Administrador puede eliminar un pedido. Se **debe** especificar el id del pedido
+
+    DELETE - http://localhost:3000/api/pedidos/:id
+
+Esto cambia el estado del pedido a *eliminado*. Los pedidos con este estado no son visibles ante ningún usuario.
